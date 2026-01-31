@@ -7,7 +7,7 @@ const UserReview = () => (
       <Image src={avatar} alt="Username" width={36} height={36} />
       <div className="font-bold">Username</div>
     </div>
-    <div className="mt-3">Tried many, but this Al stands out!🔥</div>
+    <div className="mt-3">Tried many, but this Al stands out! 🔥</div>
   </div>
 );
 
