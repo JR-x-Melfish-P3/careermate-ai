@@ -87,7 +87,6 @@ const Form = () => {
 
             console.log({ fullName, email, password });
 
-            // 调用 API，如果 API 返回成功
             if (fullName === "Alice Wong") {
               console.log("Welcome back, Alice Wong!");
             }
@@ -102,3 +101,7 @@ const Form = () => {
 };
 
 export default Form;
+
+
+// 输入错误的 email
+// assert 页面出现 error message

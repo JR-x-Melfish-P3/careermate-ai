@@ -22,7 +22,7 @@ const Field = ({ label, value, placeholder, onChange, type, error }) => {
           onChange={onChange}
           className={twMerge(
             "px-4 h-12 rounded-3xl border border-gray-300 w-full",
-            error && "border-red-500"
+            error && "border-red-500",
           )}
           placeholder={placeholder}
         />
@@ -32,12 +32,20 @@ const Field = ({ label, value, placeholder, onChange, type, error }) => {
             onClick={() => setShowPassword(!showPassword)}
             className="absolute top-0 right-0 bottom-0 flex items-center px-4 cursor-pointer text-gray-300"
           >
-            {showPassword ? <Eye /> : <EyeClosed />}
+            {showPassword ? (
+              <Eye aria-label="Hide Password" />
+            ) : (
+              <EyeClosed aria-label="Show Password" />
+            )}
           </button>
         )}
       </div>
       <div className="text-sm text-red-500 mt-1 relative">
-        <div className="absolute">{error}</div>
+        {error && (
+          <div className="absolute" role="alert">
+            {error}
+          </div>
+        )}
       </div>
     </div>
   );
