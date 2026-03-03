@@ -8,7 +8,13 @@ const getPasswordError = (password) =>
       message: "Please enter your password",
     },
     {
-      match: (value) => !isStrongPassword(value),
+      match: (value) =>
+        !isStrongPassword(value, {
+          minLowercase: 0,
+          minUppercase: 0,
+          minNumbers: 0,
+          minSymbols: 0,
+        }),
       message: "Password must be at least 8 characters long",
     },
   ]);
