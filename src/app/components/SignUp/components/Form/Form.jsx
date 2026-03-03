@@ -4,43 +4,19 @@ import { useState } from "react";
 import Button from "./components/Button";
 import Field from "./components/Field";
 import LoginLink from "./components/LoginLink";
-import { isEmail, isEmpty, isStrongPassword } from "validator";
-
-const getError = (value, errors) =>
-  errors.find((error) => error.match(value))?.message || "";
+import getEmailError from "./utils/getEmailError";
+import getFullNameError from "./utils/getFullNameError";
+import getPasswordError from "./utils/getPasswordError";
 
 const Form = () => {
   const [fullName, setFullName] = useState("");
-  const fullNameError = getError(fullName, [
-    {
-      match: (value) => isEmpty(value),
-      message: "Please enter your full name",
-    },
-  ]);
+  const fullNameError = getFullNameError(fullName);
 
   const [email, setEmail] = useState("");
-  const emailError = getError(email, [
-    {
-      match: (value) => isEmpty(value),
-      message: "Please enter your email",
-    },
-    {
-      match: (value) => !isEmail(value),
-      message: "Please enter a valid email address",
-    },
-  ]);
+  const emailError = getEmailError(email);
 
   const [password, setPassword] = useState("");
-  const passwordError = getError(password, [
-    {
-      match: (value) => isEmpty(value),
-      message: "Please enter your password",
-    },
-    {
-      match: (value) => !isStrongPassword(value),
-      message: "Password must be at least 8 characters long",
-    },
-  ]);
+  const passwordError = getPasswordError(password);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -101,7 +77,3 @@ const Form = () => {
 };
 
 export default Form;
-
-
-// 输入错误的 email
-// assert 页面出现 error message
