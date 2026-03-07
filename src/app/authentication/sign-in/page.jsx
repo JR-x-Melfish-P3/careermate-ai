@@ -1,12 +1,16 @@
 "use client";
 
-import Header from "../components/Header";
-import Field from "../components/Field";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Button from "../components/Button";
+import Field from "../components/Field";
+import Header from "../components/Header";
 import Hint from "../components/Hint";
+import useForm from "../hooks/useForm";
+import ServerError from "./components/ServerError";
 import getEmailError from "./utils/getEmailError";
 import getPasswordError from "./utils/getPasswordError";
-import useForm from "../hooks/useForm";
+import axios from "axios";
 
 const SignInPage = () => {
   const { onChange, data, onSubmit, isSubmitted, error } = useForm({
@@ -17,6 +21,10 @@ const SignInPage = () => {
     },
   });
 
+  const [serverError, setServerError] = useState();
+
+  const router = useRouter();
+
   return (
     <>
       <form>
@@ -24,6 +32,7 @@ const SignInPage = () => {
           title="Welcome Back"
           subTitle="Log in to continue your AI journey"
         />
+        {serverError && <ServerError status={serverError.response?.status} />}
         <Field
           value={data.email}
           onChange={(event) => onChange("email", event)}
@@ -41,7 +50,16 @@ const SignInPage = () => {
         />
         <Button
           onClick={(event) => {
-            onSubmit(() => {}, event);
+            onSubmit(async () => {
+              try {
+                await axios.post("http://localhost:8000/auth/sign-in", data);
+              } catch (error) {
+                setServerError(error);
+                return;
+              }
+
+              router.push("/dashboard");
+            }, event);
           }}
         >
           Login

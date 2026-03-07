@@ -4,7 +4,6 @@ import axios from "axios";
 import { useState } from "react";
 import Button from "../components/Button";
 import Field from "../components/Field";
-import RegisteredSuccess from "./components/RegisteredSuccess";
 import ServerError from "./components/ServerError";
 import getEmailError from "./utils/getEmailError";
 import getFullNameError from "./utils/getFullNameError";
@@ -25,7 +24,6 @@ const SignUpPage = () => {
   });
 
   const [serverError, setServerError] = useState();
-  const [isRegistered, setIsRegistered] = useState(false);
 
   const router = useRouter();
 
@@ -70,8 +68,6 @@ const SignUpPage = () => {
                 return;
               }
 
-              setIsRegistered(true);
-
               router.push("/dashboard");
             }, event);
           }}
@@ -85,7 +81,6 @@ const SignUpPage = () => {
       </form>
 
       {serverError && <ServerError status={serverError.response?.status} />}
-      {isRegistered && <RegisteredSuccess />}
     </>
   );
 };
