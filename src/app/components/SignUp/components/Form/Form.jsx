@@ -1,15 +1,15 @@
 "use client";
 
+import axios from "axios";
 import { useState } from "react";
 import Button from "./components/Button";
 import Field from "./components/Field";
 import LoginLink from "./components/LoginLink";
+import RegisteredSuccess from "./components/RegisteredSuccess";
+import ServerError from "./components/ServerError";
 import getEmailError from "./utils/getEmailError";
 import getFullNameError from "./utils/getFullNameError";
 import getPasswordError from "./utils/getPasswordError";
-import axios from "axios";
-import Dialog from "./components/Dialog";
-import { CircleAlert } from "lucide-react";
 
 const Form = () => {
   const [fullName, setFullName] = useState("");
@@ -96,31 +96,8 @@ const Form = () => {
         </div>
       </form>
 
-      {serverError && (
-        <Dialog>
-          <div className="p-10 space-y-4 width-[300px]">
-            <div>
-              <CircleAlert className="text-orange-500 mx-auto" size={40} />
-            </div>
-            {{
-              409: (
-                <div className="space-y-10">
-                  <div className="font-bold">
-                    Email already registered, please log in instead
-                  </div>
-                  <div>
-                    <Button onClick={() => {}}>Go to Login</Button>
-                  </div>
-                </div>
-              ),
-            }[serverError.response?.status] || (
-              <div className="font-bold">
-                Something went wrong, please try again later
-              </div>
-            )}
-          </div>
-        </Dialog>
-      )}
+      {serverError && <ServerError status={serverError.response?.status} />}
+      {isRegistered && <RegisteredSuccess />}
     </>
   );
 };
