@@ -10,6 +10,7 @@ import ServerError from "./components/ServerError";
 import getEmailError from "./utils/getEmailError";
 import getFullNameError from "./utils/getFullNameError";
 import getPasswordError from "./utils/getPasswordError";
+import { useRouter } from "next/navigation";
 
 const Form = () => {
   const [fullName, setFullName] = useState("");
@@ -26,6 +27,8 @@ const Form = () => {
   const [serverError, setServerError] = useState();
 
   const [isRegistered, setIsRegistered] = useState(false);
+
+  const router = useRouter();
 
   return (
     <>
@@ -88,6 +91,8 @@ const Form = () => {
               }
 
               setIsRegistered(true);
+
+              router.push("/dashboard");
             }}
           >
             Create Account
