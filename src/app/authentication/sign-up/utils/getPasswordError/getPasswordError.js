@@ -1,5 +1,5 @@
 import { isEmpty, isStrongPassword } from "validator";
-import getError from "../getError";
+import getError from "../../../utils/getError";
 
 const getPasswordError = (password) =>
   getError(password, [

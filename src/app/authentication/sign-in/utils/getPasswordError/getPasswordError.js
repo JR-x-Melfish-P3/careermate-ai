@@ -1,12 +1,12 @@
 import { isEmpty } from "validator";
 import getError from "../../../utils/getError";
 
-const getFullNameError = (fullName) =>
-  getError(fullName, [
+const getPasswordError = (password) =>
+  getError(password, [
     {
       match: (value) => isEmpty(value),
-      message: "Please enter your full name",
+      message: "Please enter your password",
     },
   ]);
 
-export default getFullNameError;
+export default getPasswordError;

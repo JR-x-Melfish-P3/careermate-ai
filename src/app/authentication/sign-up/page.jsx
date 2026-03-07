@@ -12,21 +12,19 @@ import getPasswordError from "./utils/getPasswordError";
 import { useRouter } from "next/navigation";
 import Header from "../components/Header";
 import Hint from "../components/Hint";
+import useForm from "../hooks/useForm";
 
 const SignUpPage = () => {
-  const [fullName, setFullName] = useState("");
-  const fullNameError = getFullNameError(fullName);
-
-  const [email, setEmail] = useState("");
-  const emailError = getEmailError(email);
-
-  const [password, setPassword] = useState("");
-  const passwordError = getPasswordError(password);
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { onChange, data, onSubmit, isSubmitted, error } = useForm({
+    fields: ["fullName", "email", "password"],
+    validation: {
+      fullName: getFullNameError,
+      email: getEmailError,
+      password: getPasswordError,
+    },
+  });
 
   const [serverError, setServerError] = useState();
-
   const [isRegistered, setIsRegistered] = useState(false);
 
   const router = useRouter();
@@ -40,55 +38,42 @@ const SignUpPage = () => {
         />
 
         <Field
-          value={fullName}
-          onChange={(event) => setFullName(event.target.value)}
+          value={data.fullName}
+          onChange={(event) => onChange("fullName", event)}
           label="Full Name"
           placeholder="Your full name"
-          error={isSubmitted && fullNameError}
+          error={isSubmitted && error.fullName}
         />
         <Field
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          value={data.email}
+          onChange={(event) => onChange("email", event)}
           label="Email"
           placeholder="Your email"
-          error={isSubmitted && emailError}
+          error={isSubmitted && error.email}
         />
         <Field
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          value={data.password}
+          onChange={(event) => onChange("password", event)}
           label="Password"
           type="password"
           placeholder="Create a password"
-          error={isSubmitted && passwordError}
+          error={isSubmitted && error.password}
         />
 
         <Button
-          onClick={async (event) => {
-            event.preventDefault();
+          onClick={(event) => {
+            onSubmit(async () => {
+              try {
+                await axios.post("http://localhost:8000/auth/sign-up", data);
+              } catch (error) {
+                setServerError(error);
+                return;
+              }
 
-            setIsSubmitted(true);
+              setIsRegistered(true);
 
-            const invalid = [fullNameError, emailError, passwordError].some(
-              (value) => !!value,
-            );
-
-            if (invalid) {
-              return;
-            }
-
-            try {
-              await axios.post("http://localhost:8000/auth/sign-up", {
-                email,
-                password,
-              });
-            } catch (error) {
-              setServerError(error);
-              return;
-            }
-
-            setIsRegistered(true);
-
-            router.push("/dashboard");
+              router.push("/dashboard");
+            }, event);
           }}
         >
           Create Account

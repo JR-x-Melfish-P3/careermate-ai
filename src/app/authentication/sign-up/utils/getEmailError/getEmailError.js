@@ -1,5 +1,5 @@
 import { isEmail, isEmpty } from "validator";
-import getError from "../getError";
+import getError from "../../../utils/getError";
 
 const getEmailError = (email) =>
   getError(email, [

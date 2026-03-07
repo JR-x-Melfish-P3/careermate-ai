@@ -1,9 +1,22 @@
+"use client";
+
 import Header from "../components/Header";
 import Field from "../components/Field";
 import Button from "../components/Button";
 import Hint from "../components/Hint";
+import getEmailError from "./utils/getEmailError";
+import getPasswordError from "./utils/getPasswordError";
+import useForm from "../hooks/useForm";
 
 const SignInPage = () => {
+  const { onChange, data, onSubmit, isSubmitted, error } = useForm({
+    fields: ["email", "password"],
+    validation: {
+      email: getEmailError,
+      password: getPasswordError,
+    },
+  });
+
   return (
     <>
       <form>
@@ -12,21 +25,27 @@ const SignInPage = () => {
           subTitle="Log in to continue your AI journey"
         />
         <Field
-          // value={email}
-          // onChange={(event) => setEmail(event.target.value)}
+          value={data.email}
+          onChange={(event) => onChange("email", event)}
           label="Email"
           placeholder="Your email"
-          // error={isSubmitted && emailError}
+          error={isSubmitted && error.email}
         />
         <Field
-          // value={password}
-          // onChange={(event) => setPassword(event.target.value)}
+          value={data.password}
+          onChange={(event) => onChange("password", event)}
           label="Password"
           type="password"
           placeholder="Your password"
-          // error={isSubmitted && passwordError}
+          error={isSubmitted && error.password}
         />
-        <Button>Login</Button>
+        <Button
+          onClick={(event) => {
+            onSubmit(() => {}, event);
+          }}
+        >
+          Login
+        </Button>
         <Hint
           message="Don't have an account?"
           action={{ text: "Sign up", href: "/authentication/sign-up" }}

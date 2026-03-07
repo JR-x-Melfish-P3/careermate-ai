@@ -1,12 +1,12 @@
 import { isEmpty } from "validator";
 import getError from "../../../utils/getError";
 
-const getFullNameError = (fullName) =>
-  getError(fullName, [
+const getEmailError = (email) =>
+  getError(email, [
     {
       match: (value) => isEmpty(value),
-      message: "Please enter your full name",
+      message: "Please enter your email",
     },
   ]);
 
-export default getFullNameError;
+export default getEmailError;
