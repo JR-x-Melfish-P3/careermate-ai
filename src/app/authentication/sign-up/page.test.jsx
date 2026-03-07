@@ -1,10 +1,10 @@
 import { render, screen, within } from "@testing-library/react";
-import Form from "./Form";
+import SignUpPage from "./page";
 import userEvent from "@testing-library/user-event";
 
 describe("Form", () => {
   test("renders sign up form", () => {
-    render(<Form />);
+    render(<SignUpPage />);
 
     expect(
       screen.getByRole("textbox", { name: "Full Name" }),
@@ -19,7 +19,7 @@ describe("Form", () => {
   test("render error message when input is invalid after form submission", async () => {
     const user = userEvent.setup();
 
-    render(<Form />);
+    render(<SignUpPage />);
 
     await user.click(screen.getByRole("button", { name: "Create Account" }));
 

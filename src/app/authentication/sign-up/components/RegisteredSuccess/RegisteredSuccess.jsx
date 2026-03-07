@@ -1,4 +1,4 @@
-import Header from "@/app/authentication/sign-up/components/Header";
+import Header from "@/app/components/Header";
 import Modal from "../Modal";
 import { CircleCheckBig } from "lucide-react";
 

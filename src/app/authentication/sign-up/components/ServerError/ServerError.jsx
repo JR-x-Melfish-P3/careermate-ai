@@ -1,6 +1,6 @@
 import { CircleAlert } from "lucide-react";
 import Modal from "../Modal";
-import Button from "../Button";
+import Button from "../../../components/Button";
 
 const ServerError = ({ status }) => (
   <Modal isDialog>

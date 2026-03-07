@@ -1,3 +1,5 @@
+"use client";
+
 import { Eye, EyeClosed } from "lucide-react";
 import { useId, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -8,7 +10,7 @@ const Field = ({ label, value, placeholder, onChange, type, error }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div>
+    <div className="mb-8">
       <div className="mb-2">
         <label className="text-gray-700 text-sm" htmlFor={id}>
           {label}
