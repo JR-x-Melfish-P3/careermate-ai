@@ -52,7 +52,10 @@ const SignInPage = () => {
           onClick={(event) => {
             onSubmit(async () => {
               try {
-                await axios.post("http://localhost:8000/auth/sign-in", data);
+                await axios.post(
+                  `${process.env.NEXT_PUBLIC_AUTH_API}/auth/sign-in`,
+                  data,
+                );
               } catch (error) {
                 setServerError(error);
                 return;
