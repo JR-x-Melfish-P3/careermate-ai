@@ -19,6 +19,8 @@
     "validator": "^13.15.26"
   },
   "devDependencies": {
+    "@cspell/eslint-plugin": "^9.7.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -28,6 +30,10 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.5",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-regex": "^1.10.0",
+    "eslint-plugin-testing-library": "^7.16.0",
+    "eslint-plugin-vitest": "^0.5.4",
     "jsdom": "^28.1.0",
     "tailwindcss": "^4",
     "vitest": "^4.0.18"

@@ -17,16 +17,14 @@ export const metadata = {
   description: "Your AI Career Practice Partner",
 };
 
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Header />
-        {children}
-        <div id="dialog-root" />
-      </body>
-    </html>
-  );
-}
+const RootLayout = ({ children }) => (
+  <html lang="en">
+    <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <Header />
+      {children}
+      <div id="dialog-root" />
+    </body>
+  </html>
+);
+
+export default RootLayout;

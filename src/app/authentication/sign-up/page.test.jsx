@@ -45,6 +45,7 @@ describe("Form", () => {
       screen.getByRole("textbox", { name: "Full Name" }),
       "John Doe",
     );
+
     await user.type(
       screen.getByRole("textbox", { name: "Email" }),
       "john.doe@example.com",
@@ -69,7 +70,7 @@ describe("Form", () => {
       wrapper: ({ children }) => (
         <>
           {children}
-          <div id="dialog-root"></div>
+          <div id="dialog-root" />
         </>
       ),
     });
@@ -78,6 +79,7 @@ describe("Form", () => {
       screen.getByRole("textbox", { name: "Full Name" }),
       "John Doe",
     );
+
     await user.type(
       screen.getByRole("textbox", { name: "Email" }),
       "john.doe@example.com",

@@ -19,10 +19,12 @@ describe("Field", () => {
       "type",
       "text",
     );
+
     expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute(
       "placeholder",
       "Please type your email",
     );
+
     expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute(
       "value",
       "alice@email.com",
@@ -55,6 +57,7 @@ describe("Field", () => {
       "type",
       "text",
     );
+
     expect(screen.getByRole("textbox", { name: "Password" })).toHaveAttribute(
       "value",
       "PASSWORD123",
@@ -63,6 +66,7 @@ describe("Field", () => {
     expect(
       screen.queryByRole("button", { name: "Show Password" }),
     ).not.toBeInTheDocument();
+
     expect(
       screen.getByRole("button", { name: "Hide Password" }),
     ).toBeInTheDocument();
