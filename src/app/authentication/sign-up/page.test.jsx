@@ -2,6 +2,8 @@ import { render, screen, within } from "@testing-library/react";
 import SignUpPage from "./page";
 import userEvent from "@testing-library/user-event";
 
+vi.mock("next/navigation");
+
 describe("Form", () => {
   test("renders sign up form", () => {
     render(<SignUpPage />);
