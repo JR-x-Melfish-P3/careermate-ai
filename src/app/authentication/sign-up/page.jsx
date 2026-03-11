@@ -62,7 +62,10 @@ const SignUpPage = () => {
           onClick={(event) => {
             onSubmit(async () => {
               try {
-                await axios.post("http://localhost:8000/auth/sign-up", data);
+                await axios.post(
+                  `${process.env.NEXT_PUBLIC_AUTH_API}/auth/sign-up`,
+                  data,
+                );
               } catch (error) {
                 setServerError(error);
                 return;
