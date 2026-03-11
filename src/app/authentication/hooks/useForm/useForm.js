@@ -15,7 +15,7 @@ const useForm = ({ fields, validation }) => {
     return initialData;
   });
 
-  const onChange = (field, event) => {
+  const onChange = (field) => (event) => {
     setData((previousData) => ({
       ...previousData,
       [field]: event.target.value,
@@ -33,7 +33,7 @@ const useForm = ({ fields, validation }) => {
     error[field] = result;
   });
 
-  const onSubmit = (handleSubmit, event) => {
+  const onSubmit = (handleSubmit) => (event) => {
     event.preventDefault();
 
     setIsSubmitted(true);
