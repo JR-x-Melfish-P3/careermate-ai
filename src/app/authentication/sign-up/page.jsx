@@ -37,21 +37,21 @@ const SignUpPage = () => {
 
         <Field
           value={data.fullName}
-          onChange={(event) => onChange("fullName", event)}
+          onChange={onChange("fullName")}
           label="Full Name"
           placeholder="Your full name"
           error={isSubmitted && error.fullName}
         />
         <Field
           value={data.email}
-          onChange={(event) => onChange("email", event)}
+          onChange={onChange("email")}
           label="Email"
           placeholder="Your email"
           error={isSubmitted && error.email}
         />
         <Field
           value={data.password}
-          onChange={(event) => onChange("password", event)}
+          onChange={onChange("password")}
           label="Password"
           type="password"
           placeholder="Create a password"
@@ -59,21 +59,20 @@ const SignUpPage = () => {
         />
 
         <Button
-          onClick={(event) => {
-            onSubmit(async () => {
-              try {
-                await axios.post(
-                  `${process.env.NEXT_PUBLIC_AUTH_API}/auth/sign-up`,
-                  data,
-                );
-              } catch (error) {
-                setServerError(error);
-                return;
-              }
+          onClick={onSubmit(async () => {
+            try {
+              await axios.post(
+                `${process.env.NEXT_PUBLIC_AUTH_API}/auth/sign-up`,
+                data,
+              );
+            } catch (error) {
+              setServerError(error);
 
-              router.push("/dashboard");
-            }, event);
-          }}
+              return;
+            }
+
+            router.push("/dashboard");
+          })}
         >
           Create Account
         </Button>
