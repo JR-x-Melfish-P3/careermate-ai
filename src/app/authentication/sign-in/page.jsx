@@ -57,6 +57,7 @@ const SignInPage = () => {
               );
             } catch (error) {
               setServerError(error);
+
               return;
             }
 
