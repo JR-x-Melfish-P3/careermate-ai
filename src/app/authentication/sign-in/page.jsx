@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Button from "../components/Button";
-import Field from "../components/Field";
+import Button from "../../components/Button";
+import Field from "../../components/Field";
 import Header from "../components/Header";
 import Hint from "../components/Hint";
-import useForm from "../hooks/useForm";
+import useForm from "../../hooks/useForm";
 import ServerError from "./components/ServerError";
 import getEmailError from "./utils/getEmailError";
 import getPasswordError from "./utils/getPasswordError";
@@ -29,7 +29,7 @@ const SignInPage = () => {
     <>
       <form>
         <Header
-          title="Hello world"
+          title="Welcome Back"
           subTitle="Log in to continue your AI journey"
         />
         {serverError && <ServerError status={serverError.response?.status} />}
@@ -49,6 +49,7 @@ const SignInPage = () => {
           error={isSubmitted && error.password}
         />
         <Button
+          fullWidth
           onClick={onSubmit(async () => {
             try {
               await axios.post(

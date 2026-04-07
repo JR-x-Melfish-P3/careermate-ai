@@ -1,6 +1,6 @@
 import { CircleAlert } from "lucide-react";
 import Modal from "../Modal";
-import Button from "../../../components/Button";
+import Button from "../../../../components/Button";
 
 const ServerError = ({ status }) => (
   <Modal isDialog>
@@ -13,7 +13,9 @@ const ServerError = ({ status }) => (
           <div className="space-y-10">
             <div>Email already registered, please log in instead</div>
             <div>
-              <Button onClick={() => {}}>Go to Login</Button>
+              <Button fullWidth onClick={() => {}}>
+                Go to Login
+              </Button>
             </div>
           </div>
         ),
