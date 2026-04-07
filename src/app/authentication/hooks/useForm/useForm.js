@@ -2,18 +2,12 @@
 
 import { useState } from "react";
 
-const useForm = ({ fields, validation }) => {
+const useForm = ({ fields, validation, initialData = {} }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [data, setData] = useState(() => {
-    const initialData = {};
-
-    fields.forEach((field) => {
-      initialData[field] = "";
-    });
-
-    return initialData;
-  });
+  const [data, setData] = useState(() =>
+    Object.fromEntries(fields.map((field) => [field, initialData[field] ?? ""]))
+  );
 
   const onChange = (field) => (event) => {
     setData((previousData) => ({
