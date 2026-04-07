@@ -22,7 +22,7 @@ const NavList = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="space-y-1">
+    <nav className="space-y-2">
       {NAV_ITEMS.map(({ icon: Icon, label, href }) => {
         const isActive = pathname === href;
         return (

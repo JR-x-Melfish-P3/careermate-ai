@@ -4,9 +4,9 @@ import NavList from "./components/NavList";
 import UserProfile from "./components/UserProfile";
 
 const DashboardLayout = ({ children }) => (
-  <div className="pt-[88px] max-w-5xl mx-auto px-10 py-8">
-    <h1 className="text-2xl font-bold text-gray-900">Personal Settings</h1>
-    <p className="text-sm text-gray-500 mt-1">
+  <div className="max-w-5xl mx-auto px-10 py-8">
+    <h1 className="text-2xl text-gray-900">Personal Settings</h1>
+    <p className="text-sm text-gray-500 mt-3 mb-6">
       Update your basic info, career focus and account security
     </p>
     <UserProfile />
