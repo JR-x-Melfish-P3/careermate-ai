@@ -4,7 +4,17 @@ import { Eye, EyeClosed } from "lucide-react";
 import { useId, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-const Field = ({ label, value, placeholder, onChange, type, error }) => {
+const Field = ({
+  label,
+  value,
+  hint,
+  placeholder,
+  onChange,
+  type,
+  error,
+  readOnly = false,
+  optional = false,
+}) => {
   const id = useId();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -12,19 +22,25 @@ const Field = ({ label, value, placeholder, onChange, type, error }) => {
   return (
     <div className="mb-8">
       <div className="mb-2">
-        <label className="text-gray-700 text-sm" htmlFor={id}>
-          {label}
+        <label htmlFor={id}>
+          <span className="text-gray-700 text-sm">{label}</span>
+          {optional && (
+            <span className="text-gray-400 text-xs ml-2">(Optional)</span>
+          )}
         </label>
       </div>
+      {hint && <div className="text-gray-400 text-sm mb-2">{hint}</div>}
       <div className="relative">
         <input
           id={id}
           type={showPassword ? "text" : type}
           value={value}
           onChange={onChange}
+          readOnly={readOnly}
           className={twMerge(
             "px-4 h-12 rounded-3xl border border-gray-300 w-full",
             error && "border-red-500",
+            readOnly && "bg-gray-50 cursor-not-allowed",
           )}
           placeholder={placeholder}
         />
