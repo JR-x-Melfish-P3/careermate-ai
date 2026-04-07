@@ -2,8 +2,8 @@
 
 import axios from "axios";
 import { useState } from "react";
-import Button from "../components/Button";
-import Field from "../components/Field";
+import Button from "../../components/Button";
+import Field from "../../components/Field";
 import ServerError from "./components/ServerError";
 import getEmailError from "./utils/getEmailError";
 import getFullNameError from "./utils/getFullNameError";
@@ -11,7 +11,7 @@ import getPasswordError from "./utils/getPasswordError";
 import { useRouter } from "next/navigation";
 import Header from "../components/Header";
 import Hint from "../components/Hint";
-import useForm from "../hooks/useForm";
+import useForm from "../../hooks/useForm";
 
 const SignUpPage = () => {
   const { onChange, data, onSubmit, isSubmitted, error } = useForm({

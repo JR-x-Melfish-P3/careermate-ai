@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Button from "../components/Button";
-import Field from "../components/Field";
+import Button from "../../components/Button";
+import Field from "../../components/Field";
 import Header from "../components/Header";
 import Hint from "../components/Hint";
-import useForm from "../hooks/useForm";
+import useForm from "../../hooks/useForm";
 import ServerError from "./components/ServerError";
 import getEmailError from "./utils/getEmailError";
 import getPasswordError from "./utils/getPasswordError";

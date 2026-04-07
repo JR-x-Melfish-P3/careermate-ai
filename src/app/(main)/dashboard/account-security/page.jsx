@@ -1,5 +1,65 @@
-'use client'
+"use client";
 
-const AccountSecurityPage = () => <div>Account &amp; Security</div>
+import Button from "@/app/components/Button";
+import Field from "@/app/components/Field";
+import useForm from "@/app/hooks/useForm";
 
-export default AccountSecurityPage
+const AccountSecurityPage = () => {
+  const { data, onChange, onSubmit, error, isSubmitted } = useForm({
+    fields: ["email", "currentPassword", "newPassword", "confirmNewPassword"],
+    validation: {},
+    initialData: {
+      email: "long.zhao@mel.fish",
+    },
+  });
+
+  const handleSave = () => {};
+
+  return (
+    <form onSubmit={onSubmit(handleSave)}>
+      <h2 className="text-lg font-semibold text-gray-900 mb-6">
+        Account &amp; Security
+      </h2>
+
+      <Field
+        hint="Your login email cannot be changed here. Contact support if needed."
+        label="Email"
+        readOnly
+        value={data.email}
+      />
+
+      <div className="py-3 border-b border-gray-100 mb-4">Change Password</div>
+
+      <Field
+        label="Current Password"
+        type="password"
+        value={data.currentPassword}
+        onChange={onChange("currentPassword")}
+        placeholder="Enter current password to make changes"
+        error={isSubmitted && error.currentPassword}
+      />
+
+      <Field
+        label="New Password"
+        type="password"
+        value={data.newPassword}
+        onChange={onChange("newPassword")}
+        placeholder="Enter new password"
+        error={isSubmitted && error.newPassword}
+      />
+
+      <Field
+        label="Confirm New Password"
+        type="password"
+        value={data.confirmNewPassword}
+        onChange={onChange("confirmNewPassword")}
+        placeholder="Re-enter new password"
+        error={isSubmitted && error.confirmNewPassword}
+      />
+
+      <Button>Save Account Settings</Button>
+    </form>
+  );
+};
+
+export default AccountSecurityPage;
