@@ -59,6 +59,7 @@ const SignUpPage = () => {
         />
 
         <Button
+          fullWidth
           onClick={onSubmit(async () => {
             try {
               await axios.post(

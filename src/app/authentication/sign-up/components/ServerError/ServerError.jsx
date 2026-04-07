@@ -13,7 +13,9 @@ const ServerError = ({ status }) => (
           <div className="space-y-10">
             <div>Email already registered, please log in instead</div>
             <div>
-              <Button onClick={() => {}}>Go to Login</Button>
+              <Button fullWidth onClick={() => {}}>
+                Go to Login
+              </Button>
             </div>
           </div>
         ),

@@ -49,6 +49,7 @@ const SignInPage = () => {
           error={isSubmitted && error.password}
         />
         <Button
+          fullWidth
           onClick={onSubmit(async () => {
             try {
               await axios.post(
