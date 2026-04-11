@@ -2,14 +2,17 @@
 
 import Button from "@/app/components/Button";
 import Field from "@/app/components/Field";
+import { useAuthentication } from "@/app/contexts/Authentication";
 import useForm from "@/app/hooks/useForm";
 
 const AccountSecurityPage = () => {
+  const { user } = useAuthentication();
+
   const { data, onChange, onSubmit, error, isSubmitted } = useForm({
     fields: ["email", "currentPassword", "newPassword", "confirmNewPassword"],
     validation: {},
     initialData: {
-      email: "long.zhao@mel.fish",
+      email: user.email,
     },
   });
 

@@ -1,18 +1,21 @@
 "use client";
 
+import auth from "@/app/apis/auth";
+import { useAuthentication } from "@/app/contexts/Authentication";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Button from "../../components/Button";
 import Field from "../../components/Field";
+import useForm from "../../hooks/useForm";
 import Header from "../components/Header";
 import Hint from "../components/Hint";
-import useForm from "../../hooks/useForm";
 import ServerError from "./components/ServerError";
 import getEmailError from "./utils/getEmailError";
 import getPasswordError from "./utils/getPasswordError";
-import axios from "axios";
 
 const SignInPage = () => {
+  const { signIn } = useAuthentication();
+
   const { onChange, data, onSubmit, isSubmitted, error } = useForm({
     fields: ["email", "password"],
     validation: {
@@ -52,10 +55,8 @@ const SignInPage = () => {
           fullWidth
           onClick={onSubmit(async () => {
             try {
-              await axios.post(
-                `${process.env.NEXT_PUBLIC_AUTH_API}/auth/sign-in`,
-                data,
-              );
+              await auth.post(`/auth/sign-in`, data);
+              await signIn();
             } catch (error) {
               setServerError(error);
               return;

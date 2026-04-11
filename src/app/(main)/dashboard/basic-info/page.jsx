@@ -4,14 +4,17 @@ import Field from "@/app/components/Field";
 import Button from "@/app/components/Button";
 import useForm from "@/app/hooks/useForm";
 import getFullNameError from "./utils/getFullNameError";
+import { useAuthentication } from "@/app/contexts/Authentication";
 
 const BasicInfoPage = () => {
+  const { user } = useAuthentication();
+
   const { data, onChange, onSubmit, error, isSubmitted } = useForm({
     fields: ["fullName", "displayName"],
     validation: {
       fullName: getFullNameError,
     },
-    initialData: { fullName: "Ray Zhang" },
+    initialData: { fullName: user.fullName },
   });
 
   const handleSave = () => {
