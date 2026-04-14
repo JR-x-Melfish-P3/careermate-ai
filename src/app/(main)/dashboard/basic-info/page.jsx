@@ -1,24 +1,33 @@
 "use client";
 
-import Field from "@/app/components/Field";
-import Button from "@/app/components/Button";
-import useForm from "@/app/hooks/useForm";
-import getFullNameError from "./utils/getFullNameError";
-import { useAuthentication } from "@/app/contexts/Authentication";
+import Field from "@/app/_components/Field";
+import Button from "@/app/_components/Button";
+import useForm from "@/app/_hooks/useForm";
+import { useAuthentication } from "@/app/_contexts/Authentication";
+import { useToast } from "@/app/_contexts/Toast";
+import axios from "axios";
+import z from "zod";
+
+const schema = z.object({
+  fullName: z.string().nonempty("Full Name is required"),
+  displayName: z.string().optional(),
+});
 
 const BasicInfoPage = () => {
-  const { user } = useAuthentication();
+  const { user, mutate } = useAuthentication();
+  const { addToast } = useToast();
 
   const { data, onChange, onSubmit, error, isSubmitted } = useForm({
     fields: ["fullName", "displayName"],
-    validation: {
-      fullName: getFullNameError,
-    },
-    initialData: { fullName: user.fullName },
+    schema,
+    initialData: { fullName: user.fullName, displayName: user.displayName },
   });
 
-  const handleSave = () => {
-    // TODO: addToast('Saved successfully')
+  const handleSave = async () => {
+    await axios.put("/api/auth/user/basic-info", data);
+    await mutate();
+
+    addToast("Basic info updated successfully");
   };
 
   return (

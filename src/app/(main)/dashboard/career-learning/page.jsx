@@ -1,18 +1,30 @@
 "use client";
 
-import Button from "@/app/components/Button";
-import Field from "@/app/components/Field";
-import useForm from "@/app/hooks/useForm";
+import Button from "@/app/_components/Button";
+import Field from "@/app/_components/Field";
+import useForm from "@/app/_hooks/useForm";
+import { useToast } from "@/app/_contexts/Toast";
+import z from "zod";
+import { useAuthentication } from "@/app/_contexts/Authentication";
+import axios from "axios";
+
+const schema = z.object({
+  goal: z.string().optional(),
+});
 
 const CareerLearningPage = () => {
+  const { user } = useAuthentication();
+  const { addToast } = useToast();
+
   const { data, onChange, onSubmit, error, isSubmitted } = useForm({
     fields: ["goal"],
-    validation: {},
-    initialData: { goal: "Looking for internship" },
+    schema,
+    initialData: { goal: user.goal },
   });
 
-  const handleSave = () => {
-    // TODO: addToast('Saved successfully')
+  const handleSave = async () => {
+    await axios.put("/api/auth/user/career-learning", data);
+    addToast("Career settings saved successfully");
   };
 
   return (
@@ -26,7 +38,7 @@ const CareerLearningPage = () => {
         value={data.goal}
         onChange={onChange("goal")}
         placeholder="What are you looking for?"
-        error={isSubmitted && error.fullName}
+        error={isSubmitted && error.goal}
       />
 
       <Button>Save Career Settings</Button>

@@ -1,22 +1,39 @@
 "use client";
 
-import Button from "@/app/components/Button";
-import Field from "@/app/components/Field";
-import { useAuthentication } from "@/app/contexts/Authentication";
-import useForm from "@/app/hooks/useForm";
+import Button from "@/app/_components/Button";
+import Field from "@/app/_components/Field";
+import { useAuthentication } from "@/app/_contexts/Authentication";
+import { useToast } from "@/app/_contexts/Toast";
+import useForm from "@/app/_hooks/useForm";
+import axios from "axios";
+import z from "zod";
+
+const schema = z
+  .object({
+    currentPassword: z.string().nonempty("Current password is required"),
+    newPassword: z
+      .string()
+      .min(6, "New password must be at least 6 characters"),
+    confirmNewPassword: z.string().nonempty("Please confirm your new password"),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    path: ["confirmNewPassword"],
+    message: "Passwords do not match",
+  });
 
 const AccountSecurityPage = () => {
   const { user } = useAuthentication();
+  const { addToast } = useToast();
 
   const { data, onChange, onSubmit, error, isSubmitted } = useForm({
-    fields: ["email", "currentPassword", "newPassword", "confirmNewPassword"],
-    validation: {},
-    initialData: {
-      email: user.email,
-    },
+    fields: ["currentPassword", "newPassword", "confirmNewPassword"],
+    schema,
   });
 
-  const handleSave = () => {};
+  const handleSave = async () => {
+    await axios.put("/api/auth/user/account-security", data);
+    addToast("Password updated successfully");
+  };
 
   return (
     <form onSubmit={onSubmit(handleSave)}>
@@ -28,7 +45,7 @@ const AccountSecurityPage = () => {
         hint="Your login email cannot be changed here. Contact support if needed."
         label="Email"
         readOnly
-        value={data.email}
+        value={user.email}
       />
 
       <div className="py-3 border-b border-gray-100 mb-4">Change Password</div>

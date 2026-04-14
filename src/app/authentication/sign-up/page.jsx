@@ -1,29 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import Button from "../../components/Button";
-import Field from "../../components/Field";
-import ServerError from "./components/ServerError";
-import getEmailError from "./utils/getEmailError";
-import getFullNameError from "./utils/getFullNameError";
-import getPasswordError from "./utils/getPasswordError";
+import Button from "../../_components/Button";
+import Field from "../../_components/Field";
+import ServerError from "./_components/ServerError";
 import { useRouter } from "next/navigation";
-import Header from "../components/Header";
-import Hint from "../components/Hint";
-import useForm from "../../hooks/useForm";
-import auth from "@/app/apis/auth";
-import { useAuthentication } from "@/app/contexts/Authentication";
+import Header from "../_components/Header";
+import Hint from "../_components/Hint";
+import useForm from "../../_hooks/useForm";
+import { useAuthentication } from "@/app/_contexts/Authentication";
+import axios from "axios";
+import z from "zod";
+
+const schema = z.object({
+  fullName: z.string().nonempty("Full Name is required"),
+  email: z
+    .string()
+    .nonempty("Email is required")
+    .email("Invalid email address"),
+  password: z.string().nonempty("Password is required"),
+});
 
 const SignUpPage = () => {
-  const { signIn } = useAuthentication();
+  const { mutate } = useAuthentication();
 
   const { onChange, data, onSubmit, isSubmitted, error } = useForm({
     fields: ["fullName", "email", "password"],
-    validation: {
-      fullName: getFullNameError,
-      email: getEmailError,
-      password: getPasswordError,
-    },
+    schema,
   });
 
   const [serverError, setServerError] = useState();
@@ -65,8 +68,8 @@ const SignUpPage = () => {
           fullWidth
           onClick={onSubmit(async () => {
             try {
-              await auth.post(`/auth/sign-up`, data);
-              await signIn();
+              await axios.post("/api/auth/sign-up", data);
+              await mutate();
             } catch (error) {
               setServerError(error);
 

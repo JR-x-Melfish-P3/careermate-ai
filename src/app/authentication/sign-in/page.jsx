@@ -1,27 +1,28 @@
 "use client";
 
-import auth from "@/app/apis/auth";
-import { useAuthentication } from "@/app/contexts/Authentication";
+import { useAuthentication } from "@/app/_contexts/Authentication";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Button from "../../components/Button";
-import Field from "../../components/Field";
-import useForm from "../../hooks/useForm";
-import Header from "../components/Header";
-import Hint from "../components/Hint";
-import ServerError from "./components/ServerError";
-import getEmailError from "./utils/getEmailError";
-import getPasswordError from "./utils/getPasswordError";
+import Button from "../../_components/Button";
+import Field from "../../_components/Field";
+import useForm from "../../_hooks/useForm";
+import Header from "../_components/Header";
+import Hint from "../_components/Hint";
+import ServerError from "./_components/ServerError";
+import z from "zod";
+import axios from "axios";
+
+const schema = z.object({
+  email: z.string().nonempty("Email is required"),
+  password: z.string().nonempty("Password is required"),
+});
 
 const SignInPage = () => {
-  const { signIn } = useAuthentication();
+  const { mutate } = useAuthentication();
 
   const { onChange, data, onSubmit, isSubmitted, error } = useForm({
     fields: ["email", "password"],
-    validation: {
-      email: getEmailError,
-      password: getPasswordError,
-    },
+    schema,
   });
 
   const [serverError, setServerError] = useState();
@@ -55,8 +56,8 @@ const SignInPage = () => {
           fullWidth
           onClick={onSubmit(async () => {
             try {
-              await auth.post(`/auth/sign-in`, data);
-              await signIn();
+              await axios.post("/api/auth/sign-in", data);
+              await mutate();
             } catch (error) {
               setServerError(error);
               return;
