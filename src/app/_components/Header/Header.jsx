@@ -17,7 +17,7 @@ const Header = ({ ghost = false }) => {
     >
       <Image src={logo} alt="CareerMate AI" width={184} height={24} />
       {user && (
-        <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600">
+        <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-sm font-semibold text-gray-600">
           {user.fullName[0].toUpperCase()}
         </div>
       )}

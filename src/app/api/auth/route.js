@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
-import Boom from "@hapi/boom";
-import getUser from "@/app/api/_utils/getUser";
 import withToken from "@/app/api/_middlewares/withToken";
+import getUser from "@/app/api/_utils/getUser";
+import Boom from "@hapi/boom";
+import { NextResponse } from "next/server";
 
 export const GET = withToken(async () => {
   const user = await getUser();
@@ -16,5 +16,6 @@ export const GET = withToken(async () => {
     email: user.email,
     fullName: user.fullName,
     displayName: user.displayName,
+    goal: user.goal,
   });
 });

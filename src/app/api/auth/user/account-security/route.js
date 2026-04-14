@@ -1,16 +1,17 @@
-import { NextResponse } from "next/server";
-import withToken from "@/app/api/_middlewares/withToken";
-import z from "zod";
-import getUser from "@/app/api/_utils/getUser";
+import bcrypt from "bcrypt";
 import users from "@/app/api/_db/users";
+import withToken from "@/app/api/_middlewares/withToken";
+import getUser from "@/app/api/_utils/getUser";
 import Boom from "@hapi/boom";
+import { NextResponse } from "next/server";
+import z from "zod";
 
 const schema = z.object({
-  fullName: z.string().nonempty(),
-  displayName: z.string().optional(),
+  currentPassword: z.string().nonempty(),
+  newPassword: z.string().min(6),
 });
 
-export const PATCH = withToken(async (request) => {
+export const PUT = withToken(async (request) => {
   const json = await request.json();
   const result = schema.safeParse(json);
 
@@ -19,7 +20,7 @@ export const PATCH = withToken(async (request) => {
     return NextResponse.json({ payload }, { status: statusCode });
   }
 
-  const { fullName, displayName } = result.data;
+  const { currentPassword, newPassword } = result.data;
 
   const user = await getUser();
 
@@ -28,9 +29,21 @@ export const PATCH = withToken(async (request) => {
     return NextResponse.json({ payload }, { status: statusCode });
   }
 
-  user.fullName = fullName;
-  user.displayName = displayName;
+  const isCorrectPassword = await bcrypt.compare(
+    currentPassword,
+    user.password,
+  );
 
+  console.log(isCorrectPassword);
+
+  if (!isCorrectPassword) {
+    const { statusCode, payload } = Boom.unauthorized().output;
+    return NextResponse.json({ payload }, { status: statusCode });
+  }
+
+  const hash = await bcrypt.hash(newPassword, 10);
+
+  user.password = hash;
   users.update(user);
 
   return NextResponse.json({ message: "Ok" });

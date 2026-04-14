@@ -10,6 +10,7 @@ import Header from "../_components/Header";
 import Hint from "../_components/Hint";
 import ServerError from "./_components/ServerError";
 import z from "zod";
+import axios from "axios";
 
 const schema = z.object({
   email: z.string().nonempty("Email is required"),

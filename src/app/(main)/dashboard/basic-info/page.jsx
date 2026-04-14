@@ -4,6 +4,7 @@ import Field from "@/app/_components/Field";
 import Button from "@/app/_components/Button";
 import useForm from "@/app/_hooks/useForm";
 import { useAuthentication } from "@/app/_contexts/Authentication";
+import { useToast } from "@/app/_contexts/Toast";
 import axios from "axios";
 import z from "zod";
 
@@ -14,6 +15,7 @@ const schema = z.object({
 
 const BasicInfoPage = () => {
   const { user, mutate } = useAuthentication();
+  const { addToast } = useToast();
 
   const { data, onChange, onSubmit, error, isSubmitted } = useForm({
     fields: ["fullName", "displayName"],
@@ -22,8 +24,10 @@ const BasicInfoPage = () => {
   });
 
   const handleSave = async () => {
-    await axios.patch("/api/user/basic-info", data);
+    await axios.put("/api/auth/user/basic-info", data);
     await mutate();
+
+    addToast("Basic info updated successfully");
   };
 
   return (

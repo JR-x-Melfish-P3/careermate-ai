@@ -21,9 +21,9 @@ const UserProfile = () => {
             {user.email}
           </div>
         </div>
-        {(user.careerFocus || user.field) && (
+        {(user.goal || user.field) && (
           <div className="text-sm text-gray-600 mt-3">
-            {[user?.careerFocus, user?.field].filter(Boolean).join(" · ")}
+            {[user?.goal, user?.field].filter(Boolean).join(" · ")}
           </div>
         )}
       </div>
