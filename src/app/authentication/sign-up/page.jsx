@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
 import Button from "../../components/Button";
 import Field from "../../components/Field";
@@ -12,8 +11,12 @@ import { useRouter } from "next/navigation";
 import Header from "../components/Header";
 import Hint from "../components/Hint";
 import useForm from "../../hooks/useForm";
+import auth from "@/app/apis/auth";
+import { useAuthentication } from "@/app/contexts/Authentication";
 
 const SignUpPage = () => {
+  const { signIn } = useAuthentication();
+
   const { onChange, data, onSubmit, isSubmitted, error } = useForm({
     fields: ["fullName", "email", "password"],
     validation: {
@@ -62,10 +65,8 @@ const SignUpPage = () => {
           fullWidth
           onClick={onSubmit(async () => {
             try {
-              await axios.post(
-                `${process.env.NEXT_PUBLIC_AUTH_API}/auth/sign-up`,
-                data,
-              );
+              await auth.post(`/auth/sign-up`, data);
+              await signIn();
             } catch (error) {
               setServerError(error);
 

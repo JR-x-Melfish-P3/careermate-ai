@@ -1,14 +1,23 @@
-import { render, screen, within } from "@testing-library/react";
-import SignUpPage from "./page";
+import auth from "@/app/apis/auth";
+import {
+  AuthenticationContext,
+  AuthenticationProvider,
+} from "@/app/contexts/Authentication";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { expect } from "vitest";
+import SignUpPage from "./page";
 
 vi.mock("next/navigation");
 
 describe("Form", () => {
   test("renders sign up form", () => {
-    render(<SignUpPage />);
+    render(<SignUpPage />, {
+      wrapper: ({ children }) => (
+        <AuthenticationProvider>{children}</AuthenticationProvider>
+      ),
+    });
 
     expect(
       screen.getByRole("textbox", { name: "Full Name" }),
@@ -23,7 +32,11 @@ describe("Form", () => {
   test("render error message when input is invalid after form submission", async () => {
     const user = userEvent.setup();
 
-    render(<SignUpPage />);
+    render(<SignUpPage />, {
+      wrapper: ({ children }) => (
+        <AuthenticationProvider>{children}</AuthenticationProvider>
+      ),
+    });
 
     await user.click(screen.getByRole("button", { name: "Create Account" }));
 
@@ -37,9 +50,17 @@ describe("Form", () => {
     const push = vi.fn();
     useRouter.mockReturnValue({ push });
 
-    vi.spyOn(axios, "post").mockResolvedValue();
+    vi.spyOn(auth, "post").mockResolvedValue();
 
-    render(<SignUpPage />);
+    const signIn = vi.fn();
+
+    render(<SignUpPage />, {
+      wrapper: ({ children }) => (
+        <AuthenticationContext.Provider value={{ signIn }}>
+          {children}
+        </AuthenticationContext.Provider>
+      ),
+    });
 
     await user.type(
       screen.getByRole("textbox", { name: "Full Name" }),
@@ -53,6 +74,14 @@ describe("Form", () => {
 
     await user.click(screen.getByRole("button", { name: "Create Account" }));
 
+    expect(auth.post).toBeCalledWith("/auth/sign-up", {
+      fullName: "John Doe",
+      email: "john.doe@example.com",
+      password: "Password",
+    });
+
+    expect(signIn).toBeCalled();
+
     expect(push).toBeCalledWith("/dashboard");
   });
 
@@ -61,16 +90,16 @@ describe("Form", () => {
     const push = vi.fn();
     useRouter.mockReturnValue({ push });
 
-    vi.spyOn(axios, "post").mockRejectedValue({
+    vi.spyOn(auth, "post").mockRejectedValue({
       response: { status: 409 },
     });
 
     render(<SignUpPage />, {
       wrapper: ({ children }) => (
-        <>
+        <AuthenticationProvider>
           {children}
           <div id="dialog-root"></div>
-        </>
+        </AuthenticationProvider>
       ),
     });
 

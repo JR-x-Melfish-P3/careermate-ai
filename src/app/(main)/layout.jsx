@@ -1,10 +1,12 @@
 import Header from "../components/Header";
 
-const MainLayout = ({ children }) => (
-  <>
-    <Header authentication={{ name: "Roger" }} />
-    {children}
-  </>
-);
+const MainLayout = ({ children }) => {
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
+};
 
 export default MainLayout;
