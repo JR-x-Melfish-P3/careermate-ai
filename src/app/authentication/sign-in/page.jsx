@@ -1,17 +1,16 @@
 "use client";
 
-import auth from "@/app/apis/auth";
-import { useAuthentication } from "@/app/contexts/Authentication";
+import { useAuthentication } from "@/app/_contexts/Authentication";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Button from "../../components/Button";
-import Field from "../../components/Field";
-import useForm from "../../hooks/useForm";
-import Header from "../components/Header";
-import Hint from "../components/Hint";
-import ServerError from "./components/ServerError";
-import getEmailError from "./utils/getEmailError";
-import getPasswordError from "./utils/getPasswordError";
+import Button from "../../_components/Button";
+import Field from "../../_components/Field";
+import useForm from "../../_hooks/useForm";
+import Header from "../_components/Header";
+import Hint from "../_components/Hint";
+import ServerError from "./_components/ServerError";
+import getEmailError from "./_utils/getEmailError";
+import getPasswordError from "./_utils/getPasswordError";
 
 const SignInPage = () => {
   const { signIn } = useAuthentication();
@@ -55,7 +54,7 @@ const SignInPage = () => {
           fullWidth
           onClick={onSubmit(async () => {
             try {
-              await auth.post(`/auth/sign-in`, data);
+              await axios.post("/api/auth/sign-in", data);
               await signIn();
             } catch (error) {
               setServerError(error);

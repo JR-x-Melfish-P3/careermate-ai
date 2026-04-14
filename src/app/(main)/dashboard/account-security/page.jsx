@@ -1,9 +1,9 @@
 "use client";
 
-import Button from "@/app/components/Button";
-import Field from "@/app/components/Field";
-import { useAuthentication } from "@/app/contexts/Authentication";
-import useForm from "@/app/hooks/useForm";
+import Button from "@/app/_components/Button";
+import Field from "@/app/_components/Field";
+import { useAuthentication } from "@/app/_contexts/Authentication";
+import useForm from "@/app/_hooks/useForm";
 
 const AccountSecurityPage = () => {
   const { user } = useAuthentication();

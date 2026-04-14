@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import Button from "../../components/Button";
-import Field from "../../components/Field";
-import ServerError from "./components/ServerError";
-import getEmailError from "./utils/getEmailError";
-import getFullNameError from "./utils/getFullNameError";
-import getPasswordError from "./utils/getPasswordError";
+import Button from "../../_components/Button";
+import Field from "../../_components/Field";
+import ServerError from "./_components/ServerError";
+import getEmailError from "./_utils/getEmailError";
+import getFullNameError from "./_utils/getFullNameError";
+import getPasswordError from "./_utils/getPasswordError";
 import { useRouter } from "next/navigation";
-import Header from "../components/Header";
-import Hint from "../components/Hint";
-import useForm from "../../hooks/useForm";
-import auth from "@/app/apis/auth";
-import { useAuthentication } from "@/app/contexts/Authentication";
+import Header from "../_components/Header";
+import Hint from "../_components/Hint";
+import useForm from "../../_hooks/useForm";
+import { useAuthentication } from "@/app/_contexts/Authentication";
+import axios from "axios";
 
 const SignUpPage = () => {
   const { signIn } = useAuthentication();
@@ -65,7 +65,7 @@ const SignUpPage = () => {
           fullWidth
           onClick={onSubmit(async () => {
             try {
-              await auth.post(`/auth/sign-up`, data);
+              await axios.post("/api/auth/sign-up", data);
               await signIn();
             } catch (error) {
               setServerError(error);

@@ -1,10 +1,11 @@
 "use client";
 
-import Field from "@/app/components/Field";
-import Button from "@/app/components/Button";
-import useForm from "@/app/hooks/useForm";
-import getFullNameError from "./utils/getFullNameError";
-import { useAuthentication } from "@/app/contexts/Authentication";
+import Field from "@/app/_components/Field";
+import Button from "@/app/_components/Button";
+import useForm from "@/app/_hooks/useForm";
+import getFullNameError from "./_utils/getFullNameError";
+import { useAuthentication } from "@/app/_contexts/Authentication";
+import axios from "axios";
 
 const BasicInfoPage = () => {
   const { user } = useAuthentication();
@@ -17,8 +18,10 @@ const BasicInfoPage = () => {
     initialData: { fullName: user.fullName },
   });
 
-  const handleSave = () => {
-    // TODO: addToast('Saved successfully')
+  const handleSave = async () => {
+    const response = await axios.put("/api/user/basic-info", data);
+
+    console.log(response.data);
   };
 
   return (

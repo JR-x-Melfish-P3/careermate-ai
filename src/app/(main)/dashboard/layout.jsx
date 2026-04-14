@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useEffectEvent } from "react";
-import NavList from "./components/NavList";
-import UserProfile from "./components/UserProfile";
+import NavList from "./_components/NavList";
+import UserProfile from "./_components/UserProfile";
 import { useRouter } from "next/navigation";
-import { useAuthentication } from "@/app/contexts/Authentication";
+import { useAuthentication } from "@/app/_contexts/Authentication";
 
 const DashboardLayout = ({ children }) => {
   const { loading, error } = useAuthentication();

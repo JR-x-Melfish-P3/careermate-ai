@@ -1,8 +1,8 @@
-import auth from "@/app/apis/auth";
+import auth from "@/app/_services/auth";
 import {
   AuthenticationContext,
   AuthenticationProvider,
-} from "@/app/contexts/Authentication";
+} from "@/app/_contexts/Authentication";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useRouter } from "next/navigation";

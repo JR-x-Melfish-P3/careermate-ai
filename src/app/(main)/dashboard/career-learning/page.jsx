@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "@/app/components/Button";
-import Field from "@/app/components/Field";
-import useForm from "@/app/hooks/useForm";
+import Button from "@/app/_components/Button";
+import Field from "@/app/_components/Field";
+import useForm from "@/app/_hooks/useForm";
 
 const CareerLearningPage = () => {
   const { data, onChange, onSubmit, error, isSubmitted } = useForm({
