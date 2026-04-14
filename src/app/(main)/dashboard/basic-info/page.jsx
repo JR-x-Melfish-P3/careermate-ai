@@ -3,25 +3,27 @@
 import Field from "@/app/_components/Field";
 import Button from "@/app/_components/Button";
 import useForm from "@/app/_hooks/useForm";
-import getFullNameError from "./_utils/getFullNameError";
 import { useAuthentication } from "@/app/_contexts/Authentication";
 import axios from "axios";
+import z from "zod";
+
+const schema = z.object({
+  fullName: z.string().nonempty("Full Name is required"),
+  displayName: z.string().optional(),
+});
 
 const BasicInfoPage = () => {
-  const { user } = useAuthentication();
+  const { user, mutate } = useAuthentication();
 
   const { data, onChange, onSubmit, error, isSubmitted } = useForm({
     fields: ["fullName", "displayName"],
-    validation: {
-      fullName: getFullNameError,
-    },
-    initialData: { fullName: user.fullName },
+    schema,
+    initialData: { fullName: user.fullName, displayName: user.displayName },
   });
 
   const handleSave = async () => {
-    const response = await axios.put("/api/user/basic-info", data);
-
-    console.log(response.data);
+    await axios.patch("/api/user/basic-info", data);
+    await mutate();
   };
 
   return (

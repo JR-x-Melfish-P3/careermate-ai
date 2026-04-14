@@ -10,7 +10,6 @@ const AuthenticationProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const handleGetUser = async () => {
-    setLoading(true);
     setError(null);
 
     try {
@@ -31,7 +30,7 @@ const AuthenticationProvider = ({ children }) => {
 
   return (
     <AuthenticationContext.Provider
-      value={{ user, loading, error, signIn: handleGetUser }}
+      value={{ user, loading, error, mutate: handleGetUser }}
     >
       {children}
     </AuthenticationContext.Provider>

@@ -7,13 +7,14 @@ export const GET = withToken(async () => {
   const user = await getUser();
 
   if (!user) {
-    const { statusCode, payload } = Boom.unauthorized();
-    return NextResponse.json(payload, { status: statusCode });
+    const { statusCode, payload } = Boom.unauthorized().output;
+    return NextResponse.json({ payload }, { status: statusCode });
   }
 
   return NextResponse.json({
     id: user.id,
     email: user.email,
     fullName: user.fullName,
+    displayName: user.displayName,
   });
 });

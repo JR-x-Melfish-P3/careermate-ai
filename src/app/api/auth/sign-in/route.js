@@ -8,22 +8,22 @@ export async function POST(request) {
   const { email, password } = await request.json();
 
   if (!email || !password) {
-    const { statusCode, payload } = Boom.badData();
-    return NextResponse.json(payload, { status: statusCode });
+    const { statusCode, payload } = Boom.badData().output;
+    return NextResponse.json({ payload }, { status: statusCode });
   }
 
   const user = users.findOne({ email });
 
   if (!user) {
-    const { statusCode, payload } = Boom.notFound();
-    return NextResponse.json(payload, { status: statusCode });
+    const { statusCode, payload } = Boom.notFound().output;
+    return NextResponse.json({ payload }, { status: statusCode });
   }
 
   const match = await bcrypt.compare(password, user.password);
 
   if (!match) {
-    const { statusCode, payload } = Boom.notFound();
-    return NextResponse.json(payload, { status: statusCode });
+    const { statusCode, payload } = Boom.notFound().output;
+    return NextResponse.json({ payload }, { status: statusCode });
   }
 
   const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "5m" });

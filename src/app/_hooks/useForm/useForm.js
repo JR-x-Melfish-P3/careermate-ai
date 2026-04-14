@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 
-const useForm = ({ fields, validation, initialData = {} }) => {
+const useForm = ({ fields, schema, initialData = {} }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [data, setData] = useState(() =>
-    Object.fromEntries(fields.map((field) => [field, initialData[field] ?? ""]))
+    Object.fromEntries(
+      fields.map((field) => [field, initialData[field] ?? ""]),
+    ),
   );
 
   const onChange = (field) => (event) => {
@@ -16,16 +18,13 @@ const useForm = ({ fields, validation, initialData = {} }) => {
     }));
   };
 
-  const error = {};
-  Object.keys(validation).forEach((field) => {
-    const result = validation[field](data[field]);
+  const result = schema.safeParse(data);
 
-    if (!result) {
-      return;
-    }
-
-    error[field] = result;
-  });
+  const error = result.success
+    ? {}
+    : Object.fromEntries(
+        result.error?.issues.map((err) => [err.path[0], err.message]),
+      );
 
   const onSubmit = (handleSubmit) => (event) => {
     event.preventDefault();

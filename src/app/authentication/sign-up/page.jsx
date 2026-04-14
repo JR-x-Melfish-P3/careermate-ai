@@ -4,26 +4,29 @@ import { useState } from "react";
 import Button from "../../_components/Button";
 import Field from "../../_components/Field";
 import ServerError from "./_components/ServerError";
-import getEmailError from "./_utils/getEmailError";
-import getFullNameError from "./_utils/getFullNameError";
-import getPasswordError from "./_utils/getPasswordError";
 import { useRouter } from "next/navigation";
 import Header from "../_components/Header";
 import Hint from "../_components/Hint";
 import useForm from "../../_hooks/useForm";
 import { useAuthentication } from "@/app/_contexts/Authentication";
 import axios from "axios";
+import z from "zod";
+
+const schema = z.object({
+  fullName: z.string().nonempty("Full Name is required"),
+  email: z
+    .string()
+    .nonempty("Email is required")
+    .email("Invalid email address"),
+  password: z.string().nonempty("Password is required"),
+});
 
 const SignUpPage = () => {
-  const { signIn } = useAuthentication();
+  const { mutate } = useAuthentication();
 
   const { onChange, data, onSubmit, isSubmitted, error } = useForm({
     fields: ["fullName", "email", "password"],
-    validation: {
-      fullName: getFullNameError,
-      email: getEmailError,
-      password: getPasswordError,
-    },
+    schema,
   });
 
   const [serverError, setServerError] = useState();
@@ -66,7 +69,7 @@ const SignUpPage = () => {
           onClick={onSubmit(async () => {
             try {
               await axios.post("/api/auth/sign-up", data);
-              await signIn();
+              await mutate();
             } catch (error) {
               setServerError(error);
 

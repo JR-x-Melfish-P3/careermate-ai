@@ -9,18 +9,19 @@ import useForm from "../../_hooks/useForm";
 import Header from "../_components/Header";
 import Hint from "../_components/Hint";
 import ServerError from "./_components/ServerError";
-import getEmailError from "./_utils/getEmailError";
-import getPasswordError from "./_utils/getPasswordError";
+import z from "zod";
+
+const schema = z.object({
+  email: z.string().nonempty("Email is required"),
+  password: z.string().nonempty("Password is required"),
+});
 
 const SignInPage = () => {
-  const { signIn } = useAuthentication();
+  const { mutate } = useAuthentication();
 
   const { onChange, data, onSubmit, isSubmitted, error } = useForm({
     fields: ["email", "password"],
-    validation: {
-      email: getEmailError,
-      password: getPasswordError,
-    },
+    schema,
   });
 
   const [serverError, setServerError] = useState();
@@ -55,7 +56,7 @@ const SignInPage = () => {
           onClick={onSubmit(async () => {
             try {
               await axios.post("/api/auth/sign-in", data);
-              await signIn();
+              await mutate();
             } catch (error) {
               setServerError(error);
               return;

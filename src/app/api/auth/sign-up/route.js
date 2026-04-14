@@ -8,15 +8,15 @@ export async function POST(request) {
   const { email, password, fullName } = await request.json();
 
   if (!email || !password || !fullName) {
-    const { statusCode, payload } = Boom.badData();
-    return NextResponse.json(payload, { status: statusCode });
+    const { statusCode, payload } = Boom.badData().output;
+    return NextResponse.json({ payload }, { status: statusCode });
   }
 
   const existing = users.findOne({ email });
 
   if (existing) {
-    const { statusCode, payload } = Boom.conflict();
-    return NextResponse.json(payload, { status: statusCode });
+    const { statusCode, payload } = Boom.conflict().output;
+    return NextResponse.json({ payload }, { status: statusCode });
   }
 
   const hash = await bcrypt.hash(password, 10);
