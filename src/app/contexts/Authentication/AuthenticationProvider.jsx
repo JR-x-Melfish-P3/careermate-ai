@@ -39,10 +39,3 @@ const AuthenticationProvider = ({ children }) => {
 };
 
 export default AuthenticationProvider;
-
-// - RootLayout
-//  - AuthenticationProvider (useEffect -> error 401) 这个 useEffect 只调用了一次
-//    - Authentication/SignInPage (login -> dashboard)
-//    - (main)/DashboardLayout (1st. error 401 -> redirect sign-in)
-//    - (main)/DashboardLayout (2nd. error 401 -> redirect sign-in)
-//    - (main)/DashboardLayout (2nd. user)
